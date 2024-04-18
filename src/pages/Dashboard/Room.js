@@ -31,7 +31,7 @@ const Room = () => {
 ;
 
 const onFormSubmit =(e)=>{
-  console.log(e,"data")
+  console.log(e,"data");
 }
   return (
     <>
@@ -71,16 +71,14 @@ const onFormSubmit =(e)=>{
                       { value: 2, label: "tower2" },
                     ]}
                     onChange={handleTowerChange}
-                    {...register("tower")}
+                    {...register("tower",{required:true})}
                     value={watch(`tower`)}
                   />
-                  {errors.tower &&
                     <span className="invalid"
-                    
                     style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
-                    >{errors.tower?.message}
+                    >{errors.tower?.type==="required" && "Tower is Required"}
                     </span>
-                  }
+                  
                 </Col>
                 <Col md={2}>
                   <Label for="floor">
@@ -95,15 +93,15 @@ const onFormSubmit =(e)=>{
                       { value: 2, label: "7" },
                     ]}
                     onChange={handleFloorChange}
-                    {...register("floor")}
+                    {...register("floor",{required:true})}
                     value={watch(`floor`)}
                   />
-                  {errors.floor &&
-                    <span className="invalid-error"
+               
+                    <span className="invalid"
                     style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
-                    >{errors.floor?.message}
+                    >{errors.floor?.type==="required" && "Floor is Required."}
                     </span>
-                  }
+                 
                 </Col>
                 <Col md={2}>
                   <Label for="room">
@@ -113,17 +111,14 @@ const onFormSubmit =(e)=>{
                     placeholder="Enter Room No. "
                     type="text"
                     id="room"
-                    {...register("room")}
+                    {...register("room",{required:true})}
                     className="form-control"
                     value={watch(`room`)}
                   />
-                  {errors.room &&
                     <span className="invalid"
-                    
                     style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
-                    >{errors.room?.message}
+                    >{errors.room?.type==="required" && "Room is Required."}
                     </span>
-                  }
                 </Col>
                 <Col md={2}>
                   <div className="form-group">
@@ -142,14 +137,12 @@ const onFormSubmit =(e)=>{
                         onChange={handleStatusChange}
                         value={watch(`status`)}
                       />
-                      {errors.status && (
                         <span
                           className="invalid"
                           style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
                         >
-                          {errors.status?.message}
+                          {errors.status?.type==="required" && "Status is Required."}
                         </span>
-                      )}
                     </div>
                   </div>
                 </Col>
@@ -159,7 +152,6 @@ const onFormSubmit =(e)=>{
                   </Button>
                 </Col>
               </Row>
-
             </Form>
           </div>
       ) : null}
