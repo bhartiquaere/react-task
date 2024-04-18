@@ -26,7 +26,6 @@ const SignIn = () => {
         console.log(err);
       });
   };
-
   return (
     <>
       <div className="account-page">

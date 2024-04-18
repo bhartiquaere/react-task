@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const LOCAL_BASE_URL = "http://pg.demoquaeretech.in/api/"; 
-// const LOCAL_BASE_URL = "http://192.168.23.6:9000/api/"; 
+// const LOCAL_BASE_URL = "http://192.168.23.6:9000/api/";
+const LOCAL_BASE = "http://192.168.23.44:9000/api/"; 
 const userToken = localStorage.getItem("accessToken");
 const token = {
   headers: {
@@ -13,14 +14,9 @@ const token = {
 export const getLoginAPI = async(data)=>{
     return await axios.post(`${LOCAL_BASE_URL}login`,data);
   }
-
-
-
   export const getDashboardAPI = async(data,token)=>{
     return await axios.post(`${LOCAL_BASE_URL}dashboard`,data,token)
   }
-
-
   export const getUserListAPI = async(data,token)=>{
     return await axios.post(`${LOCAL_BASE_URL}users-list`,data,token)
   }
@@ -45,3 +41,15 @@ export const getHODListAPI=async(data,token)=>{
   };
 
   
+  //Department Api
+
+  export const CreateDepartmentAPI=async (data)=>{
+    return await axios.post(`${LOCAL_BASE}add-department`,data,token)
+  };
+  export const GetDepartmentListAPI=async (data)=>{
+    return await axios.post(`${LOCAL_BASE}get-department`,data,token)
+  };
+  
+  export const DeleteDepartmentAPI=async (data)=>{
+    return await axios.post(`${LOCAL_BASE}delete-department`,data,token)
+  };

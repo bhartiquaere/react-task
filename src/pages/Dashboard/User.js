@@ -55,78 +55,74 @@ const User = ({ ...props }) => {
 
   const columns = [
     {
-      name: "User Type",
+      name: <h4>User Type</h4>,
       selector: (row) => row.user_type,
       sortable: true,
     },
     {
-      name: "User Name",
+      name: <h4>User Name</h4>,
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "Email",
+      name: <h4>Email</h4>,
       selector: (row) => row.email,
       sortable: true,
     },
     {
-      name: "Mobile",
+      name: <h4>Mobile No.</h4>,
       selector: (row) => row.mobile,
       sortable: true,
     },
     {
-      name: "Aadhaar",
+      name: <h4>Aadhaar</h4>,
       selector: (row) => row.aadhar_card,
       sortable: true,
     },
     {
-      name: "Address",
+      name: <h4>Address</h4>,
       selector: (row) => row.address,
       sortable: true,
     },
     {
-      name: "Designation",
+      name: <h4>Designation</h4>,
       selector: (row) => row.designation_name,
       sortable: true,
     },
     {
-      name: "Department",
+      name: <h4>Department</h4>,
       selector: (row) => row.department_name,
       sortable: true,
     },
     {
-      name: "HOD",
+      name: <h4>HOD</h4>,
       selector: (row) => row.hod_name,
       sortable: true,
     },
     {
-      name: "Password",
+      name: <h4>Password</h4>,
       selector: (row) => row.password,
       sortable: true,
     },
     {
-      name: "Status",
+      name: <h4>Status</h4>,
       selector: (row) => row.status,
       cell: (row) => (
-        <Badge color={`outline-${row.status === "Active" ? "success" : "danger"}`}>
-          {row.status === "Active" ? "Active" : "InActive"}
-        </Badge>
+          <Badge color={`outline-${row.status === true ? "success" : "danger"}`}>
+              {row.status === true ? "Active" : "InActive"}
+          </Badge>
       ),
       sortable: true,
-    },
+  },
     {
-      name: "Action",
+      name: <h4>Action</h4>,
 
       cell: (row) => (
         <div>
           <Button outline color={`warning`} className={`me-2`}>
-            {" "}
-            {" "}
             <FaRegEdit />
           </Button>
           <Button outline color={`danger`}  >
-            {" "}
-            {" "}
             <FaTrash />
           </Button>
         </div>
@@ -143,7 +139,6 @@ const User = ({ ...props }) => {
   const handleDelete = () => {
 
   }
-
   const handleEdit = () => {
 
   }
