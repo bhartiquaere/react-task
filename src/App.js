@@ -11,11 +11,14 @@ import Tower from './pages/Dashboard/Tower';
 import Room from './pages/Dashboard/Room';
 import ChargeType from './pages/Dashboard/ChargeType';
 import HouseAllote from './pages/Dashboard/HouseAllote';
+import GenerateBill from './pages/Dashboard/GenerateBill';
 function App() {
+     const auth = {'accessToken':true}
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/" element={<SignIn />} ></Route>
+
         <Route element={<Main/>}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/master/user" element={<User/>} /> 
@@ -26,7 +29,9 @@ function App() {
         <Route path="/master/room" element={<Room/>} /> 
         <Route path="/master/charge-type" element={<ChargeType/>} /> 
         <Route path="/master/house-allotment" element={<HouseAllote/>} /> 
+        <Route path="/master/generate-bill" element={<GenerateBill/>} /> 
         </Route>
+        
       </Routes>
     </Router>
   );

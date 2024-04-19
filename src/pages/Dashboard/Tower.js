@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Head } from '../../component/Head';
-import { Button, Col, Form, Label, Row } from 'reactstrap';
-import { FaMinus, FaPlus } from 'react-icons/fa';
+import { Badge, Button, Col, Form, Label, Row } from 'reactstrap';
+import { FaMinus, FaPlus, FaRegEdit, FaTrash } from 'react-icons/fa';
 import CreatableSelect from "react-select/creatable";
 import { useForm } from 'react-hook-form';
 import DataTable from 'react-data-table-component';
+import { getTowerListAPI } from '../../api';
+import MyDataTable from '../../pageComponents/table/MyDataTable';
 const Tower = () => {
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
   const {
     register,
     handleSubmit,
@@ -15,6 +18,73 @@ const Tower = () => {
     trigger,
     formState: { errors },
   } = useForm();
+
+  const columns = [
+    {
+        name: <h4>Tower</h4>,
+        selector: (row) => row.tower_name,
+        sortable: true,
+    },
+    {
+        name: <h4>Location Tower</h4>,
+        selector: (row) => row.tower_location,
+        sortable: true,
+    },
+    {
+        name: <h4>No Of Floor</h4>,
+        selector: (row) => row.no_of_floor,
+        sortable: true,
+    },
+    {
+        name: <h4>KV</h4>,
+        selector: (row) => row.kv,
+        sortable: true,
+    },
+    {
+        name: <h4>Status</h4>,
+        selector: (row) => row.status,
+        cell: (row) => (
+            <Badge color={`outline-${row.status === true ? "success" : "danger"}`}>
+                {row.status === true ? "Active" : "InActive"}
+            </Badge>
+        ),
+        sortable: true,
+    },
+    {
+        name: <h4>Action</h4>,
+        cell: (row) => (
+            <div>
+                <Button outline color={`warning`} className={`me-2`} >
+                    <FaRegEdit />
+                </Button>
+                <Button outline color={`danger`} >
+                    <FaTrash />
+                </Button>
+            </div>
+        ),
+        sortable: true,
+    },
+];
+
+useEffect(()=>{
+  getTowerList();
+},[])
+
+const getTowerList=()=>{
+getTowerListAPI()
+  .then((res) => {
+      if (res.data.status === "Success") {
+          console.log(res.data.data)
+          setData(res.data.data);
+          setOpen(false)
+      } else {
+          console.log("errr");
+      }
+  })
+  .catch((err) => {
+      console.log(err);
+  });
+}
 
   const handleStatusChange = (e) => {
     setValue("status", e || "");
@@ -165,15 +235,11 @@ const Tower = () => {
       ) : null}
       <hr></hr>
       <div className={`row`}>
-        <DataTable
-          
-          subHeader={false}
-          persistTableHead
-          onColumnOrderChange
-          striped={true}
-          responsive={true}
-          pagination
-        />
+       <MyDataTable
+       columns={columns}
+       data={data}
+       />
+
       </div>
   </>
   )

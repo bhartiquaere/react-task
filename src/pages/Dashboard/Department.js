@@ -23,7 +23,7 @@ const Department = () => {
     const columns = [
         {
             name: <h4>Department</h4>,
-            selector: (row) => row.name,
+            selector: (row) => row.department_name,
             sortable: true,
         },
         {
@@ -76,9 +76,11 @@ console.log(element,"---del")
         setValue("status", { value: data.status === true, label: data.status === true ? "Active" : "Inactive" });
         setValue("department_name", data.name);
     }
+
+    
     useEffect(() => {
-        // getDepartmentList()
-        getDepartment();
+        getDepartmentList()
+        // getDepartment();
     }, []);
 
     const getDepartmentList = () => {
@@ -223,8 +225,9 @@ console.log(element,"---del")
             ) : null}
             <hr></hr>
             <MyDataTable
+            data={departmentList}
                 columns={columns}
-                data={data}
+                // data={data}
             />
         </>
     )

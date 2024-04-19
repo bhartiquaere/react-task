@@ -5,8 +5,11 @@ import DataTable from 'react-data-table-component';
 import { Badge, Button, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import CreatableSelect from "react-select/creatable";
-import { getDesignationListAPI } from '../../api';
+import { getDepartmentListAPI, getDesignationListAPI } from '../../api';
 const Designation = () => {
+    const [open, setOpen] = useState(false);
+    const [designation, setDesignation] = useState([]);
+    const [departmentList, setDepartmentList] = useState([])
     const {
         register,
         handleSubmit,
@@ -16,21 +19,20 @@ const Designation = () => {
         reset,
         formState: { errors },
     } = useForm();
-    const [open, setOpen] = useState(false);
-const [designation,setDesignation]=useState([]);
+
     const handleStatusChange = (e) => {
         setValue("status", e || "");
         trigger("status");
     };
 
-    const handleDepartChange=(e)=>{
-        setValue ("department", e || "");
-        trigger ("department");
+    const handleDepartChange = (e) => {
+        setValue("department", e || "");
+        trigger("department");
     }
 
     const onFormSubmit = (e) => {
         const data = {
-            department_id:e.department?.label,
+            department_id: e.department?.label,
             name: e.designation,
             status: e.status.value,
         };
@@ -74,19 +76,37 @@ const [designation,setDesignation]=useState([]);
             sortable: true,
         },
     ];
-useEffect(()=>{
-    getDesignationList()
-},[])
-const getDesignationList =()=>{
-    getDesignationListAPI()
-    .then((res)=>{
-        if (res.data.status==="Success") {
-            setDesignation(res.data?.data)          
-        } else {
-            
-        }
-    })
-}
+    useEffect(() => {
+        getDesignationList()
+        getDepartmentList()
+    }, [])
+    const getDepartmentList = () => {
+        getDepartmentListAPI()
+            .then((res) => {
+                if (res.data.status === "Success") {
+                    let department = res.data.data.map((i) => ({
+                        value: i.id,
+                        label: i.department_name
+                    }));
+                    setDepartmentList(department);
+                } else {
+                    console.log("Error to Fetch")
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+    };
+
+    const getDesignationList = () => {
+        getDesignationListAPI()
+            .then((res) => {
+                if (res.data.status === "Success") {
+                    setDesignation(res.data?.data)
+                } else {
+
+                }
+            })
+    }
     return (
         <>
             <Head title="Designation" />
@@ -115,7 +135,7 @@ const getDesignationList =()=>{
                     <Form onSubmit={handleSubmit(onFormSubmit)}>
                         <Row>
                             <Col md={3}>
-                            <div className="form-group">
+                                <div className="form-group">
                                     <Label className="from-label" htmlFor="department">
                                         Deparment
                                     </Label>
@@ -123,16 +143,18 @@ const getDesignationList =()=>{
                                         <CreatableSelect
                                             className=""
                                             id="department"
-                                           options={[
-                                            { value: 1, label: "Department1" },
-                                            { value:2 , label: "Tech" },
-                                           ]}
+                                            //    options={[
+                                            //     { value: 1, label: "Department1" },
+                                            //     { value:2 , label: "Tech" },
+                                            //    ]}
+                                            options={departmentList}
+
                                             {...register("department", { required: true })}
                                             onChange={handleDepartChange}
                                             value={watch(`department`)}
                                         />
-                                     
-                                     <span className="invalid"
+
+                                        <span className="invalid"
                                             style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
                                         >
                                             {errors.department?.type === "required" && "Department is Required."}
@@ -141,22 +163,22 @@ const getDesignationList =()=>{
                                 </div>
                             </Col>
                             <Col md={3}>
-                            <Label for="designation">
-                                        Designation
-                                    </Label>
-                                    <input
-                                        placeholder="Enter Designation"
-                                        type="text"
-                                        id="designation"
-                                        {...register("designation",{ required: true })}
-                                        className="form-control"
-                                        value={watch(`designation`)}
-                                    />
-                                   <span className="invalid"
-                                            style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
-                                        >
-                                            {errors.designation?.type === "required" && "Designation is Required."}
-                                        </span>
+                                <Label for="designation">
+                                    Designation
+                                </Label>
+                                <input
+                                    placeholder="Enter Designation"
+                                    type="text"
+                                    id="designation"
+                                    {...register("designation", { required: true })}
+                                    className="form-control"
+                                    value={watch(`designation`)}
+                                />
+                                <span className="invalid"
+                                    style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
+                                >
+                                    {errors.designation?.type === "required" && "Designation is Required."}
+                                </span>
                             </Col>
                             <Col md={3}>
                                 <div className="form-group">
@@ -175,14 +197,14 @@ const getDesignationList =()=>{
                                             onChange={handleStatusChange}
                                             value={watch(`status`)}
                                         />
-                                        
-                                            <span
-                                                className="invalid"
-                                                style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
-                                            >
-                                                 {errors.status?.type === "required" && "Status is Required."}
-                                            </span>
-                                    
+
+                                        <span
+                                            className="invalid"
+                                            style={{ color: "#e85347", fontSize: "11px", fontStyle: "italic" }}
+                                        >
+                                            {errors.status?.type === "required" && "Status is Required."}
+                                        </span>
+
                                     </div>
                                 </div>
                             </Col>

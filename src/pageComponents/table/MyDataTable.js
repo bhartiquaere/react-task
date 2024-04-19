@@ -4,8 +4,7 @@ import DataTable from 'react-data-table-component';
 const MyDataTable = (props) => {
     const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
     return (
-        <>
-           
+        <> 
            <div className={`row`}>
                       
                             <DataTable

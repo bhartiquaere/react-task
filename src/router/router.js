@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Heads from '../pageComponents/header/Heads';
 import Sidenav from '../pageComponents/sidebar/Sidenav';
 import { getDashboardAPI } from '../api';
-import { Outlet } from 'react-router-dom';
+import {Outlet } from 'react-router-dom';
 const Main = ({ ...props }) => {
     const [sideData, setsideBar] = useState([]);
     const userToken = localStorage.getItem("accessToken");
+
     const token = {
         headers: {
             "Access-Control-Allow-Origin": "*",
@@ -16,7 +17,6 @@ const Main = ({ ...props }) => {
     useEffect(() => {
         getDashboardData();
     }, []);
-
     const getDashboardData = () => {
         const d = {};
         getDashboardAPI(d, token)
@@ -32,13 +32,14 @@ const Main = ({ ...props }) => {
                 console.log("Error: ", err);
             });
     };
+ 
     return (
         <>
             <Heads />
             <Sidenav data={sideData} />
             <main className={`page-wrapper`}  >
                 <div className={`content container-fluid`} >
-                    <Outlet />
+          <Outlet/>
                 </div>
             </main>
         </>
